@@ -49,7 +49,13 @@ class MainActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == R.id.action_reset) {
             startActivity(Intent(applicationContext,MainActivity::class.java))
+            onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        finish()
+        super.onBackPressed()
     }
 }
