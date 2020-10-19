@@ -20,6 +20,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        populate()
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            val wordListSize = mWordList.size
+            mWordList.addLast("+ Word $wordListSize")
+            Objects.requireNonNull(mRecyclerView.getAdapter()).notifyItemInserted(wordListSize)
+            mRecyclerView.smoothScrollToPosition(wordListSize)
+        }
+    }
+    fun populate(){
         for (i in 0..19) {
             mWordList.addLast("Word $i")
         }
@@ -27,31 +37,19 @@ class MainActivity : AppCompatActivity() {
         mAdapter = WordListAdapter(this, mWordList)
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener { //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            //                        .setAction("Action", null).show();
-            val wordListSize = mWordList.size
-            mWordList.addLast("+ Word $wordListSize")
-            Objects.requireNonNull(mRecyclerView.getAdapter()).notifyItemInserted(wordListSize)
-            mRecyclerView.smoothScrollToPosition(wordListSize)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val id = item.itemId
-//        if (id == R.id.action_reset) {
-////            Intent i = new Intent(getApplicationContext(),MainActivity.class);
-////            startActivity(i);
-//            val intent = Intent(Intent.ACTION_MAIN)
-//            intent.addCategory(Intent.CATEGORY_HOME)
-//            startActivity(intent)
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        val id = item.itemId
+        if (id == R.id.action_reset) {
+            startActivity(Intent(applicationContext,MainActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
